@@ -1,0 +1,19 @@
+{
+  "name": "freepuzzle",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.30.3",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @freepuzzle/web dev",
+    "build": "pnpm --filter @freepuzzle/web build",
+    "preview": "pnpm --filter @freepuzzle/web preview",
+    "cf:deploy": "pnpm build && wrangler pages deploy web/dist",
+    "cf:preview": "pnpm build && wrangler pages deploy web/dist --branch preview"
+  },
+  "devDependencies": {
+    "wrangler": "^4.87.0"
+  }
+}
