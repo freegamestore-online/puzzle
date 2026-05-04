@@ -3,7 +3,9 @@ import { ChevronDown } from 'lucide-react'
 import { PracticeTab } from './components/PracticeTab.tsx'
 import { PreferencesTab } from './components/PreferencesTab.tsx'
 import { LanguagePicker } from './components/LanguagePicker.tsx'
+import { Leaderboard } from './components/Leaderboard.tsx'
 import { useApplySettings, useSettings } from './hooks.ts'
+import { useLeaderboard } from './hooks/useLeaderboard.ts'
 import { getStrings } from './services/i18n.ts'
 import { LEVELS, getLevelLabel } from './services/puzzles.ts'
 import type { Mode } from './types.ts'
@@ -31,8 +33,13 @@ export default function App() {
   const [levelOpen, setLevelOpen] = useState(false)
   const { settings, update } = useSettings()
   const strings = getStrings(settings.contentLang)
+  const { topScores, recentScores, submitScore, loading: leaderboardLoading } = useLeaderboard("puzzle")
 
   useApplySettings(settings)
+
+  const handlePuzzleSolved = useCallback((totalSolved: number) => {
+    submitScore(totalSolved)
+  }, [submitScore])
 
   const navigate = useCallback((nextMode: Mode) => {
     setMode(nextMode)
@@ -128,6 +135,11 @@ export default function App() {
               </div>
             </div>
 
+            <div className="border-t" style={{ borderColor: "var(--line)" }}>
+              <div className="text-xs font-semibold px-4 pt-3" style={{ color: "var(--muted)" }}>Leaderboard</div>
+              <Leaderboard topScores={topScores} recentScores={recentScores} loading={leaderboardLoading} />
+            </div>
+
             <div className="mt-auto rounded-[1.3rem] border border-[var(--line)] bg-[var(--panel)] p-4">
               <div className="text-[0.68rem] font-extrabold uppercase tracking-[0.16em] text-[var(--muted)]">{strings.puzzleTips}</div>
               <div className="mt-3 space-y-2 text-sm leading-6 text-[var(--ink)]">
@@ -197,7 +209,7 @@ export default function App() {
           <main className="min-w-0">
             <section className="rounded-[1.4rem] bg-[var(--panel-quiet)] p-3 backdrop-blur-xl sm:p-4 lg:h-full lg:rounded-[1.7rem] lg:p-5">
               {mode === 'play' ? (
-                <PracticeTab language={settings.contentLang} level={settings.level} showStats={showStats} />
+                <PracticeTab language={settings.contentLang} level={settings.level} showStats={showStats} onSolved={handlePuzzleSolved} />
               ) : (
                 <PreferencesTab settings={settings} update={update} />
               )}

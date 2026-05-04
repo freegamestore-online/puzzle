@@ -19,6 +19,7 @@ interface Props {
   language: LanguageCode
   level: number
   showStats: boolean
+  onSolved?: (totalSolved: number) => void
 }
 
 interface BoardState {
@@ -57,7 +58,7 @@ function appendHistory(prev: HistoryEntry[], entry: HistoryEntry): HistoryEntry[
   return next
 }
 
-export function PracticeTab({ language, level, showStats }: Props) {
+export function PracticeTab({ language, level, showStats, onSolved }: Props) {
   const strings = getStrings(language)
   const [scores, setScores] = useState<Score>(loadScores)
   const [problemStats, setProblemStats] = useState<ProblemStatsMap>(loadProblemStats)
@@ -178,11 +179,15 @@ export function PracticeTab({ language, level, showStats }: Props) {
   useEffect(() => {
     if (!puzzle || !board || feedback?.kind === 'solved') return
     if (evaluatePuzzle(puzzle, board) !== 'solved') return
-    setScores((prev) => recordAttempt(prev, true))
+    setScores((prev) => {
+      const next = recordAttempt(prev, true)
+      onSolved?.(next.solved)
+      return next
+    })
     setProblemStats((prev) => recordProblemAnswer(prev, puzzle.id, true))
     setFeedback({ kind: 'solved', message: puzzle.celebration })
     setHistory((prev) => appendHistory(prev, { puzzle, board, solvedAt: Date.now() }))
-  }, [board, puzzle, feedback?.kind])
+  }, [board, puzzle, feedback?.kind, onSolved])
 
   useEffect(() => {
     if (feedback?.kind !== 'solved' || historyIndex !== null) return
