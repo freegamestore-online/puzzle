@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { getStrings } from '../services/i18n.ts'
 import { generatePuzzle, getPuzzleLabel } from '../services/puzzles.ts'
 import { loadProblemStats, loadScores, recordAttempt, recordProblemAnswer } from '../services/scores.ts'
@@ -89,10 +89,9 @@ export function PracticeTab({ language, level, showStats }: Props) {
     setHistoryIndex(null)
   }, [language, level])
 
-  const currentPiece = useMemo(() => {
-    if (!puzzle || !board?.selectedPieceId) return null
-    return getAllPieces(puzzle).find((piece) => piece.id === board.selectedPieceId) ?? null
-  }, [board?.selectedPieceId, puzzle])
+  const currentPiece = !puzzle || !board?.selectedPieceId
+    ? null
+    : getAllPieces(puzzle).find((piece) => piece.id === board.selectedPieceId) ?? null
 
   const onSelectPiece = useCallback((pieceId: string) => {
     setBoard((prev) => {
@@ -866,220 +865,45 @@ function DirectionBadge({ label }: { label: string }) {
   )
 }
 
-function Glyph({ glyph, color, size }: { glyph: PieceGlyph; color: string; size?: number }) {
+const EMOJI: Record<PieceGlyph, string> = {
+  sun: '☀️',
+  moon: '🌙',
+  leaf: '🍃',
+  flower: '🌸',
+  star: '⭐',
+  drop: '💧',
+  fish: '🐟',
+  fox: '🦊',
+  triangle: '🔺',
+  circle: '⭕',
+  square: '🔳',
+  oval: '🥚',
+  seed: '🌰',
+  sprout: '🌱',
+  tree: '🌳',
+  plate: '🍽️',
+  berry: '🫐',
+  jar: '🫙',
+  rocket: '🚀',
+  bird: '🐦',
+  arrow: '⬆️',
+  pinwheel: '💫',
+  drum: '🥁',
+  flute: '🎵',
+  maraca: '🪇',
+  book: '📖',
+  paint: '🎨',
+  shell: '🐚',
+}
+
+function Glyph({ glyph, size }: { glyph: PieceGlyph; color?: string; size?: number }) {
   const dimension = size ?? 32
-
-  const common = {
-    width: dimension,
-    height: dimension,
-    viewBox: '0 0 64 64',
-    fill: 'none',
-    stroke: color,
-    strokeWidth: 4,
-    strokeLinecap: 'round' as const,
-    strokeLinejoin: 'round' as const,
-  }
-
-  switch (glyph) {
-    case 'sun':
-      return (
-        <svg {...common}>
-          <circle cx="32" cy="32" r="12" fill={color} stroke="none" />
-          <path d="M32 6v8M32 50v8M6 32h8M50 32h8M13 13l6 6M45 45l6 6M13 51l6-6M45 19l6-6" />
-        </svg>
-      )
-    case 'moon':
-      return (
-        <svg {...common}>
-          <path d="M40 10c-11 3-18 15-15 27 2 8 9 14 18 16-5 3-12 4-18 2-12-3-19-16-16-28 3-12 16-19 28-16 1 0 2 0 3 1Z" fill={color} stroke="none" />
-        </svg>
-      )
-    case 'leaf':
-      return (
-        <svg {...common}>
-          <path d="M14 38c0-16 12-24 36-24 0 16-12 34-28 34-5 0-8-4-8-10Z" fill={color} stroke="none" />
-          <path d="M20 42c7-7 15-13 25-18" />
-        </svg>
-      )
-    case 'flower':
-      return (
-        <svg {...common}>
-          <circle cx="32" cy="32" r="6" fill={color} stroke="none" />
-          <circle cx="32" cy="18" r="8" />
-          <circle cx="46" cy="32" r="8" />
-          <circle cx="32" cy="46" r="8" />
-          <circle cx="18" cy="32" r="8" />
-        </svg>
-      )
-    case 'star':
-      return (
-        <svg {...common}>
-          <path d="m32 10 6 13 14 2-10 9 3 14-13-7-13 7 3-14-10-9 14-2 6-13Z" fill={color} stroke="none" />
-        </svg>
-      )
-    case 'drop':
-      return (
-        <svg {...common}>
-          <path d="M32 10c8 12 14 20 14 28a14 14 0 1 1-28 0c0-8 6-16 14-28Z" fill={color} stroke="none" />
-        </svg>
-      )
-    case 'fish':
-      return (
-        <svg {...common}>
-          <path d="M12 32c7-10 17-16 29-16 0 5 5 8 11 8-4 3-6 5-6 8s2 5 6 8c-6 0-11 3-11 8-12 0-22-6-29-16Z" fill={color} stroke="none" />
-          <circle cx="33" cy="28" r="2" fill="#111" stroke="none" />
-        </svg>
-      )
-    case 'fox':
-      return (
-        <svg {...common}>
-          <path d="M18 46 12 24l14 8 6-14 6 14 14-8-6 22Z" fill={color} stroke="none" />
-          <circle cx="26" cy="34" r="2" fill="#111" stroke="none" />
-          <circle cx="38" cy="34" r="2" fill="#111" stroke="none" />
-        </svg>
-      )
-    case 'triangle':
-      return (
-        <svg {...common}>
-          <path d="M32 12 52 48H12Z" fill={color} stroke="none" />
-        </svg>
-      )
-    case 'circle':
-      return (
-        <svg {...common}>
-          <circle cx="32" cy="32" r="18" fill={color} stroke="none" />
-        </svg>
-      )
-    case 'square':
-      return (
-        <svg {...common}>
-          <rect x="16" y="16" width="32" height="32" rx="6" fill={color} stroke="none" />
-        </svg>
-      )
-    case 'oval':
-      return (
-        <svg {...common}>
-          <ellipse cx="32" cy="32" rx="20" ry="14" fill={color} stroke="none" />
-        </svg>
-      )
-    case 'seed':
-      return (
-        <svg {...common}>
-          <path d="M38 14c8 8 8 20 0 28s-20 8-28 0c0-8 0-20 8-28 8-8 20-8 20 0Z" fill={color} stroke="none" />
-        </svg>
-      )
-    case 'sprout':
-      return (
-        <svg {...common}>
-          <path d="M32 54V34" />
-          <path d="M32 36c0-12 8-18 18-18 0 10-6 18-18 18Z" fill={color} stroke="none" />
-          <path d="M32 40c0-10-6-16-18-16 0 10 6 16 18 16Z" fill={color} stroke="none" />
-        </svg>
-      )
-    case 'tree':
-      return (
-        <svg {...common}>
-          <path d="M32 18c10 0 18 8 18 18s-8 10-18 10-18 0-18-10 8-18 18-18Z" fill={color} stroke="none" />
-          <path d="M32 46v10" />
-        </svg>
-      )
-    case 'plate':
-      return (
-        <svg {...common}>
-          <circle cx="32" cy="32" r="18" />
-          <circle cx="32" cy="32" r="10" fill={color} stroke="none" />
-        </svg>
-      )
-    case 'berry':
-      return (
-        <svg {...common}>
-          <circle cx="24" cy="34" r="10" fill={color} stroke="none" />
-          <circle cx="40" cy="34" r="10" fill={color} stroke="none" />
-          <path d="M32 20c0-4 3-7 7-7" />
-        </svg>
-      )
-    case 'jar':
-      return (
-        <svg {...common}>
-          <rect x="18" y="18" width="28" height="30" rx="6" />
-          <path d="M22 18v-4h20v4" />
-        </svg>
-      )
-    case 'rocket':
-      return (
-        <svg {...common}>
-          <path d="M32 8c9 10 12 20 12 32l-12-6-12 6c0-12 3-22 12-32Z" fill={color} stroke="none" />
-          <circle cx="32" cy="24" r="4" fill="#fff" stroke="none" />
-          <path d="m24 40-4 10 8-4M40 40l4 10-8-4" />
-        </svg>
-      )
-    case 'bird':
-      return (
-        <svg {...common}>
-          <path d="M14 36c8-14 18-22 32-22-4 6-4 12 0 18-10 2-18 8-24 18-1-6-4-10-8-14Z" fill={color} stroke="none" />
-          <circle cx="38" cy="24" r="2" fill="#111" stroke="none" />
-        </svg>
-      )
-    case 'arrow':
-      return (
-        <svg {...common}>
-          <path d="M32 10v36" />
-          <path d="m20 22 12-12 12 12" />
-        </svg>
-      )
-    case 'pinwheel':
-      return (
-        <svg {...common}>
-          <path d="M32 32 18 18c10-6 18-2 20 6M32 32l14-14c6 10 2 18-6 20M32 32l14 14c-10 6-18 2-20-6M32 32 18 46c-6-10-2-18 6-20" fill={color} stroke="none" />
-          <circle cx="32" cy="32" r="4" fill="#fff" stroke="none" />
-        </svg>
-      )
-    case 'drum':
-      return (
-        <svg {...common}>
-          <ellipse cx="32" cy="20" rx="16" ry="8" />
-          <path d="M16 20v18c0 4 7 8 16 8s16-4 16-8V20" />
-          <path d="m20 18 24 24M44 18 20 42" />
-        </svg>
-      )
-    case 'flute':
-      return (
-        <svg {...common}>
-          <path d="M14 38 50 26" />
-          <circle cx="24" cy="34" r="2" fill={color} stroke="none" />
-          <circle cx="30" cy="32" r="2" fill={color} stroke="none" />
-          <circle cx="36" cy="30" r="2" fill={color} stroke="none" />
-        </svg>
-      )
-    case 'maraca':
-      return (
-        <svg {...common}>
-          <circle cx="36" cy="22" r="10" fill={color} stroke="none" />
-          <path d="M28 30 18 48" />
-        </svg>
-      )
-    case 'book':
-      return (
-        <svg {...common}>
-          <path d="M16 18c0-4 4-6 8-6h22v34H24c-4 0-8 2-8 6Z" fill={color} stroke="none" />
-          <path d="M24 12v34" />
-        </svg>
-      )
-    case 'paint':
-      return (
-        <svg {...common}>
-          <path d="M32 14c12 0 20 8 20 18 0 6-4 10-10 10h-4c-2 0-4 2-4 4 0 4-3 6-7 6-8 0-15-7-15-17 0-11 9-21 20-21Z" fill={color} stroke="none" />
-          <circle cx="24" cy="22" r="2" fill="#fff" stroke="none" />
-          <circle cx="34" cy="20" r="2" fill="#fff" stroke="none" />
-          <circle cx="40" cy="28" r="2" fill="#fff" stroke="none" />
-        </svg>
-      )
-    case 'shell':
-      return (
-        <svg {...common}>
-          <path d="M16 42c0-16 12-24 26-24 4 0 8 1 10 2-2 20-14 30-36 30Z" fill={color} stroke="none" />
-          <path d="M22 40c6-8 12-13 20-18" />
-        </svg>
-      )
-  }
+  return (
+    <span
+      className="inline-flex select-none items-center justify-center leading-none"
+      style={{ width: dimension, height: dimension, fontSize: dimension * 0.75 }}
+    >
+      {EMOJI[glyph]}
+    </span>
+  )
 }
