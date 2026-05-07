@@ -54,16 +54,16 @@ export default function App() {
   }, [])
 
   return (
-    <div className="relative min-h-[100dvh] overflow-hidden">
+    <div className="relative h-[100dvh] overflow-hidden">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-[-10%] top-[6%] h-72 w-72 rounded-full bg-[var(--accent-glow)] blur-3xl lg:h-[34rem] lg:w-[34rem]" />
         <div className="absolute right-[-12%] top-[10%] h-72 w-72 rounded-full bg-[var(--sky-glow)] blur-3xl lg:h-[28rem] lg:w-[28rem]" />
         <div className="absolute bottom-[-12%] left-[22%] h-80 w-80 rounded-full bg-[var(--mint-glow)] blur-3xl lg:h-[28rem] lg:w-[28rem]" />
       </div>
 
-      <div className="relative mx-auto flex min-h-[100dvh] max-w-[1540px] flex-col px-2 pb-14 pt-2 sm:px-4 lg:px-8 lg:py-8">
-        <div className="flex flex-1 flex-col lg:grid lg:grid-cols-[18rem_minmax(0,1fr)] lg:gap-7">
-          <aside className="hidden lg:flex lg:min-h-[calc(100dvh-4rem)] lg:flex-col lg:gap-5 lg:rounded-[2rem] lg:border lg:border-[var(--line)] lg:bg-[var(--panel-strong)] lg:p-6 lg:shadow-[var(--shadow-soft)] lg:backdrop-blur-xl">
+      <div className="relative mx-auto flex h-full max-w-[1540px] flex-col px-2 pb-2 pt-2 sm:px-4 lg:px-8 lg:py-4">
+        <div className="flex min-h-0 flex-1 flex-col lg:grid lg:grid-cols-[18rem_minmax(0,1fr)] lg:gap-7">
+          <aside className="hidden lg:flex lg:min-h-0 lg:flex-col lg:gap-5 lg:overflow-y-auto lg:rounded-[2rem] lg:border lg:border-[var(--line)] lg:bg-[var(--panel-strong)] lg:p-6 lg:shadow-[var(--shadow-soft)] lg:backdrop-blur-xl">
             <div className="rounded-[1.4rem] bg-[var(--accent-gradient)] p-4">
               <div className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/20 px-3 py-1 text-[0.68rem] font-extrabold uppercase tracking-[0.18em] text-[var(--ink)]">
                 {strings.appName}
@@ -206,8 +206,8 @@ export default function App() {
             )}
           </header>
 
-          <main className="min-w-0">
-            <section className="rounded-[1.4rem] bg-[var(--panel-quiet)] p-3 backdrop-blur-xl sm:p-4 lg:h-full lg:rounded-[1.7rem] lg:p-5">
+          <main className="flex min-h-0 min-w-0 flex-1 flex-col">
+            <section className="flex min-h-0 flex-1 flex-col overflow-y-auto rounded-[1.4rem] bg-[var(--panel-quiet)] p-3 backdrop-blur-xl sm:p-4 lg:rounded-[1.7rem] lg:p-5">
               {mode === 'play' ? (
                 <PracticeTab language={settings.contentLang} level={settings.level} showStats={showStats} onSolved={handlePuzzleSolved} />
               ) : (

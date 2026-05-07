@@ -195,7 +195,7 @@ export function PracticeTab({ language, level, showStats, onSolved }: Props) {
     return () => clearTimeout(timer)
   }, [feedback?.kind, nextPuzzle, historyIndex])
 
-  if (showStats) return <StatsView scores={scores} problemStats={problemStats} language={language} />
+  if (showStats) return <div className="flex min-h-0 flex-1 flex-col overflow-y-auto"><StatsView scores={scores} problemStats={problemStats} language={language} /></div>
   if (!puzzle || !board) return null
 
   const viewingHistory = historyIndex !== null
@@ -205,10 +205,10 @@ export function PracticeTab({ language, level, showStats, onSolved }: Props) {
   const solved = viewingHistory || feedback?.kind === 'solved'
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-4 lg:gap-5">
-      <section className="rounded-[1.6rem] border border-[var(--line)] bg-[var(--panel-strong)] p-4 shadow-[var(--shadow-card)] sm:p-5">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-          <div className="min-w-0 space-y-3">
+    <div className="flex min-h-0 flex-1 flex-col gap-3 lg:gap-4">
+      <section className="shrink-0 rounded-[1.6rem] border border-[var(--line)] bg-[var(--panel-strong)] p-3 shadow-[var(--shadow-card)] sm:p-4">
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+          <div className="min-w-0 space-y-1">
             <div className="flex items-center gap-2">
               <div className="inline-flex items-center gap-2 rounded-full border border-[var(--line-strong)] bg-[var(--glass)] px-3 py-1 text-[0.68rem] font-extrabold uppercase tracking-[0.16em] text-[var(--accent-deep)]">
                 {displayPuzzle.categoryLabel}
@@ -220,8 +220,8 @@ export function PracticeTab({ language, level, showStats, onSolved }: Props) {
               )}
             </div>
             <div>
-              <h1 className="display-font text-3xl font-extrabold text-[var(--ink)] sm:text-4xl">{displayPuzzle.title}</h1>
-              <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--muted)] sm:text-base">{displayPuzzle.prompt}</p>
+              <h1 className="display-font text-xl font-extrabold text-[var(--ink)] sm:text-2xl lg:text-3xl">{displayPuzzle.title}</h1>
+              <p className="mt-1 max-w-3xl text-xs leading-5 text-[var(--muted)] sm:text-sm sm:leading-6">{displayPuzzle.prompt}</p>
             </div>
           </div>
 
@@ -243,8 +243,8 @@ export function PracticeTab({ language, level, showStats, onSolved }: Props) {
         </div>
       </section>
 
-      <section className="grid min-h-0 flex-1 gap-4 lg:grid-cols-[minmax(0,1.25fr)_21rem] lg:gap-5">
-        <div className={`rounded-[1.7rem] border border-[var(--line)] bg-[var(--panel)] p-4 shadow-[var(--shadow-card)] sm:p-5 ${viewingHistory ? 'pointer-events-none' : ''}`}>
+      <section className="grid min-h-0 flex-1 gap-3 lg:grid-cols-[minmax(0,1.25fr)_21rem] lg:gap-4">
+        <div className={`overflow-y-auto rounded-[1.7rem] border border-[var(--line)] bg-[var(--panel)] p-3 shadow-[var(--shadow-card)] sm:p-4 ${viewingHistory ? 'pointer-events-none' : ''}`}>
           <PuzzleStage
             puzzle={displayPuzzle}
             board={displayBoard}
@@ -257,7 +257,7 @@ export function PracticeTab({ language, level, showStats, onSolved }: Props) {
           />
         </div>
 
-        <aside className="flex flex-col gap-4">
+        <aside className="flex min-h-0 flex-col gap-3 overflow-y-auto">
           {viewingHistory ? (
             <div className="rounded-[1.5rem] border border-[var(--line)] bg-[var(--panel-strong)] p-4 shadow-[var(--shadow-card)]">
               <div className="rounded-[1.2rem] bg-[var(--mint-gradient)] px-4 py-3 text-sm font-semibold text-[var(--ink)]">
@@ -521,7 +521,7 @@ function PatternBoard({
               type="button"
             >
               <div className="text-[0.68rem] font-extrabold uppercase tracking-[0.16em] text-[var(--muted)]">{slot.hint}</div>
-              <div className="mt-3 min-h-28">
+              <div className="mt-3 min-h-12">
                 {content ? <PieceCard piece={content} compact /> : <EmptyCard label="Place piece" />}
               </div>
             </button>
@@ -557,7 +557,7 @@ function SequenceBoard({
                 {index + 1}. {slot.hint}
               </div>
             </div>
-            <div className="mt-3 min-h-28">
+            <div className="mt-3 min-h-12">
               {placedPiece ? <PieceCard piece={placedPiece} compact /> : <EmptyCard label="Place story card" />}
             </div>
           </button>
@@ -652,9 +652,9 @@ function RotateBoard({
             </div>
             <div className="text-[0.68rem] font-extrabold uppercase tracking-[0.16em] text-[var(--muted)]">{rotateHint}</div>
           </div>
-          <div className="mt-4 flex justify-center rounded-[1.25rem] bg-[var(--cool-gradient)] p-4">
+          <div className="mt-2 flex justify-center rounded-[1.25rem] bg-[var(--cool-gradient)] p-3">
             <div style={{ transform: `rotate(${board.rotations[tile.id] ?? 0}deg)` }}>
-              <Glyph glyph={tile.glyph} color={tile.color} size={88} />
+              <Glyph glyph={tile.glyph} color={tile.color} size={56} />
             </div>
           </div>
           <div className="mt-3 flex items-center gap-2 text-sm font-semibold text-[var(--ink)]">
@@ -697,10 +697,10 @@ function PieceCard({ piece, compact }: { piece: PuzzlePiece; compact?: boolean }
   return (
     <div className={`flex ${compact ? 'items-center gap-3' : 'flex-col gap-3'}`}>
       <div
-        className="inline-flex h-16 w-16 items-center justify-center rounded-[1.1rem]"
+        className="inline-flex h-10 w-10 items-center justify-center rounded-[0.8rem] sm:h-12 sm:w-12 sm:rounded-[1rem]"
         style={{ backgroundColor: piece.color, color: piece.textColor ?? '#111111' }}
       >
-        <Glyph glyph={piece.glyph} color="currentColor" size={40} />
+        <Glyph glyph={piece.glyph} color="currentColor" size={28} />
       </div>
       <div className="min-w-0">
         <div className="text-sm font-extrabold text-[var(--ink)]">{piece.label}</div>
@@ -711,7 +711,7 @@ function PieceCard({ piece, compact }: { piece: PuzzlePiece; compact?: boolean }
 
 function EmptyCard({ label }: { label: string }) {
   return (
-    <div className="flex h-full min-h-28 items-center justify-center rounded-[1.1rem] border border-dashed border-[var(--line-strong)] bg-[var(--glass-soft)] px-3 text-center text-sm font-semibold text-[var(--muted)]">
+    <div className="flex h-full min-h-12 items-center justify-center rounded-[1.1rem] border border-dashed border-[var(--line-strong)] bg-[var(--glass-soft)] px-3 text-center text-sm font-semibold text-[var(--muted)]">
       {label}
     </div>
   )
