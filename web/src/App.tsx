@@ -61,7 +61,7 @@ export default function App() {
 
               <div className="relative">
                 <button
-                  className="flex items-center gap-1 rounded-full border border-[var(--line)] bg-[var(--glass)] px-2 py-1.5 text-xs font-bold text-[var(--muted)]"
+                  className="flex items-center gap-1 rounded-full border border-[var(--line)] bg-[var(--glass)] px-3 min-h-[2.75rem] min-w-[2.75rem] text-xs font-bold text-[var(--muted)]"
                   onClick={() => setLevelOpen(!levelOpen)}
                   type="button"
                 >
@@ -75,7 +75,7 @@ export default function App() {
                       {LEVELS.map((level) => (
                         <button
                           key={level}
-                          className={`flex w-full items-center gap-2 rounded-[0.75rem] px-3 py-2 text-left text-sm ${
+                          className={`flex w-full items-center gap-2 rounded-[0.75rem] px-3 min-h-[2.75rem] text-left text-sm ${
                             level === settings.level
                               ? 'bg-[var(--accent-gradient)] font-bold text-[var(--ink)]'
                               : 'text-[var(--muted)] hover:bg-[var(--glass-hover)] hover:text-[var(--ink)]'
@@ -97,7 +97,7 @@ export default function App() {
 
               {mode === 'play' && (
                 <button
-                  className={`rounded-full px-2 py-1.5 text-xs font-bold ${showStats ? 'bg-[var(--sky)] text-white' : 'text-[var(--muted)]'}`}
+                  className={`rounded-full px-3 min-h-[2.75rem] min-w-[2.75rem] text-xs font-bold ${showStats ? 'bg-[var(--sky)] text-white' : 'text-[var(--muted)]'}`}
                   onClick={() => setShowStats(!showStats)}
                   type="button"
                 >
@@ -106,7 +106,7 @@ export default function App() {
               )}
 
               <button
-                className={`rounded-full px-2 py-1.5 text-xs font-bold ${mode === 'preferences' ? 'bg-[var(--ink)] text-[var(--paper)]' : 'text-[var(--muted)]'}`}
+                className={`rounded-full px-3 min-h-[2.75rem] min-w-[2.75rem] text-xs font-bold ${mode === 'preferences' ? 'bg-[var(--ink)] text-[var(--paper)]' : 'text-[var(--muted)]'}`}
                 onClick={() => navigate(mode === 'preferences' ? 'play' : 'preferences')}
                 type="button"
               >

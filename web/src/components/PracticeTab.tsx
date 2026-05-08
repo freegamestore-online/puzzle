@@ -748,7 +748,7 @@ function HistoryNav({
   return (
     <div className="flex items-center gap-2">
       <button
-        className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--line)] bg-[var(--glass-soft)] text-[var(--ink)] disabled:opacity-30"
+        className="flex h-11 w-11 items-center justify-center rounded-full border border-[var(--line)] bg-[var(--glass-soft)] text-[var(--ink)] disabled:opacity-30"
         onClick={onPrev}
         disabled={index === 0}
         type="button"
@@ -761,7 +761,7 @@ function HistoryNav({
         {index + 1} / {total}
       </span>
       <button
-        className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--line)] bg-[var(--glass-soft)] text-[var(--ink)]"
+        className="flex h-11 w-11 items-center justify-center rounded-full border border-[var(--line)] bg-[var(--glass-soft)] text-[var(--ink)]"
         onClick={index < total - 1 ? onNext : onResume}
         type="button"
       >
