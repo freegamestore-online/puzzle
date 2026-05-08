@@ -50,6 +50,7 @@ export default function App() {
       topbar={
         <GameTopbar
           title="Puzzle"
+          rules={<div><h3 style={{fontWeight:700}}>Puzzle</h3><h4 style={{fontWeight:600}}>Rules</h4><ul><li>Logic puzzles and pattern challenges</li><li>Multiple difficulty levels</li><li>Track your stats</li><li>Practice mode for skill building</li></ul></div>}
           actions={
             <div className="flex items-center gap-2">
               <LanguagePicker
