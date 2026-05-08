@@ -21,7 +21,7 @@ export function LanguagePicker({
     <div className="relative">
       {compact ? (
         <button
-          className="flex items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--glass)] px-3 py-1.5 text-xs font-semibold text-[var(--muted)] hover:bg-[var(--glass-hover)]"
+          className="flex items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--glass)] px-3 min-h-[2.75rem] min-w-[2.75rem] text-xs font-semibold text-[var(--muted)] hover:bg-[var(--glass-hover)]"
           onClick={() => setOpen(!open)}
           type="button"
         >
@@ -30,7 +30,7 @@ export function LanguagePicker({
         </button>
       ) : (
         <button
-          className="flex w-full items-center justify-between gap-3 rounded-[1.25rem] border border-[var(--line)] bg-[var(--glass)] px-4 py-3 text-left shadow-[var(--shadow-card)] hover:border-[var(--line-strong)] hover:bg-[var(--glass-hover)]"
+          className="flex w-full items-center justify-between gap-3 rounded-[1.25rem] border border-[var(--line)] bg-[var(--glass)] px-4 py-3 min-h-[2.75rem] text-left shadow-[var(--shadow-card)] hover:border-[var(--line-strong)] hover:bg-[var(--glass-hover)]"
           onClick={() => setOpen(!open)}
           type="button"
         >
@@ -51,7 +51,7 @@ export function LanguagePicker({
               return (
                 <button
                   key={language.code}
-                  className={`flex w-full items-center gap-3 rounded-[1rem] px-3 py-3 text-sm ${
+                  className={`flex w-full items-center gap-3 rounded-[1rem] px-3 py-3 min-h-[2.75rem] text-sm ${
                     active
                       ? 'text-[var(--ink)]'
                       : 'text-[var(--muted)] hover:bg-[var(--glass-hover)] hover:text-[var(--ink)]'

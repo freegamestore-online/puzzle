@@ -83,7 +83,7 @@ export function PreferencesTab({ settings, update }: Props) {
       </Section>
 
       <div className="pt-4 text-center">
-        <a href="https://freegamestore.online" target="_blank" rel="noopener" className="text-[0.7rem] font-medium text-[var(--muted)] hover:text-[var(--ink)] transition-colors">
+        <a href="https://freegamestore.online" target="_blank" rel="noopener" className="inline-flex items-center min-h-[2.75rem] text-[0.7rem] font-medium text-[var(--muted)] hover:text-[var(--ink)] transition-colors">
           Part of FreeGameStore — free forever
         </a>
       </div>
@@ -118,7 +118,7 @@ function SegmentRow<T extends string>({
         {options.map((option) => (
           <button
             key={option.value}
-            className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-all duration-150 ${
+            className={`rounded-full px-3 py-1.5 min-h-[2.75rem] min-w-[2.75rem] text-xs font-semibold transition-all duration-150 ${
               value === option.value
                 ? 'bg-[var(--ink)] text-[var(--paper)] shadow-sm'
                 : 'text-[var(--muted)] hover:text-[var(--ink)]'

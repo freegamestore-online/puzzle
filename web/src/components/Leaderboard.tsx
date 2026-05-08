@@ -26,7 +26,7 @@ export function Leaderboard({ topScores, recentScores, loading }: LeaderboardPro
           <button
             key={t}
             onClick={() => setTab(t)}
-            className="px-3 py-1 text-xs font-semibold rounded-lg"
+            className="px-3 py-1 min-h-[2.75rem] min-w-[2.75rem] text-xs font-semibold rounded-lg"
             style={{
               background: tab === t ? "var(--accent)" : "transparent",
               color: tab === t ? "#fff" : "var(--muted)",
