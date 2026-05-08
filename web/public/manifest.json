@@ -1,8 +1,0 @@
-{
-  "name": "FreePuzzle",
-  "short_name": "FreePuzzle",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#ff8a54"
-}
