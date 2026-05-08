@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { GameShell, GameTopbar } from '@freeappstore/games'
+import { GameShell, GameTopbar } from '@freegamestore/games'
 import { ChevronDown } from 'lucide-react'
 import { PracticeTab } from './components/PracticeTab.tsx'
 import { PreferencesTab } from './components/PreferencesTab.tsx'
