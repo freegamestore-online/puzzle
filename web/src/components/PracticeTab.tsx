@@ -205,23 +205,23 @@ export function PracticeTab({ language, level, showStats, onSolved }: Props) {
   const solved = viewingHistory || feedback?.kind === 'solved'
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-3 lg:gap-4">
-      <section className="shrink-0 rounded-[1.6rem] border border-[var(--line)] bg-[var(--panel-strong)] p-3 shadow-[var(--shadow-card)] sm:p-4">
-        <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
-          <div className="min-w-0 space-y-1">
+    <div className="flex min-h-0 flex-1 flex-col gap-2 sm:gap-3 lg:gap-4">
+      <section className="shrink rounded-[1.6rem] border border-[var(--line)] bg-[var(--panel-strong)] p-2 shadow-[var(--shadow-card)] sm:p-3 lg:p-4 overflow-hidden">
+        <div className="flex flex-col gap-2 sm:gap-3 lg:flex-row lg:items-start lg:justify-between">
+          <div className="min-w-0 space-y-0.5 sm:space-y-1">
             <div className="flex items-center gap-2">
-              <div className="inline-flex items-center gap-2 rounded-full border border-[var(--line-strong)] bg-[var(--glass)] px-3 py-1 text-[0.68rem] font-extrabold uppercase tracking-[0.16em] text-[var(--accent-deep)]">
+              <div className="inline-flex items-center gap-2 rounded-full border border-[var(--line-strong)] bg-[var(--glass)] px-2 py-0.5 text-[0.62rem] font-extrabold uppercase tracking-[0.16em] text-[var(--accent-deep)] sm:px-3 sm:py-1 sm:text-[0.68rem]">
                 {displayPuzzle.categoryLabel}
               </div>
               {viewingHistory && (
-                <div className="inline-flex items-center gap-2 rounded-full bg-[var(--mint-gradient)] px-3 py-1 text-[0.68rem] font-extrabold uppercase tracking-[0.16em] text-[var(--ink)]">
+                <div className="inline-flex items-center gap-2 rounded-full bg-[var(--mint-gradient)] px-2 py-0.5 text-[0.62rem] font-extrabold uppercase tracking-[0.16em] text-[var(--ink)] sm:px-3 sm:py-1 sm:text-[0.68rem]">
                   {strings.solved}
                 </div>
               )}
             </div>
             <div>
-              <h1 className="display-font text-xl font-extrabold text-[var(--ink)] sm:text-2xl lg:text-3xl">{displayPuzzle.title}</h1>
-              <p className="mt-1 max-w-3xl text-xs leading-5 text-[var(--muted)] sm:text-sm sm:leading-6">{displayPuzzle.prompt}</p>
+              <h1 className="display-font text-base font-extrabold text-[var(--ink)] sm:text-xl lg:text-3xl">{displayPuzzle.title}</h1>
+              <p className="mt-0.5 max-w-3xl text-[0.7rem] leading-4 text-[var(--muted)] sm:mt-1 sm:text-sm sm:leading-6">{displayPuzzle.prompt}</p>
             </div>
           </div>
 
@@ -234,7 +234,7 @@ export function PracticeTab({ language, level, showStats, onSolved }: Props) {
               onResume={() => setHistoryIndex(null)}
             />
           ) : (
-            <div className="grid grid-cols-3 gap-2 rounded-[1.4rem] bg-[var(--warm-gradient)] p-2 text-center shadow-[var(--shadow-card)] sm:min-w-[18rem]">
+            <div className="grid grid-cols-3 gap-1.5 rounded-[1rem] bg-[var(--warm-gradient)] p-1.5 text-center shadow-[var(--shadow-card)] sm:gap-2 sm:rounded-[1.4rem] sm:p-2 sm:min-w-[18rem]">
               <StatPill label={strings.puzzlesSolved} value={scores.solved} tone="warm" />
               <StatPill label={strings.streak} value={scores.streak} tone="cool" />
               <StatPill label={strings.best} value={scores.bestStreak} tone="mint" />
@@ -243,8 +243,8 @@ export function PracticeTab({ language, level, showStats, onSolved }: Props) {
         </div>
       </section>
 
-      <section className="grid min-h-0 flex-1 gap-3 lg:grid-cols-[minmax(0,1.25fr)_21rem] lg:gap-4">
-        <div className={`overflow-y-auto rounded-[1.7rem] border border-[var(--line)] bg-[var(--panel)] p-3 shadow-[var(--shadow-card)] sm:p-4 ${viewingHistory ? 'pointer-events-none' : ''}`}>
+      <section className="grid min-h-0 flex-1 gap-2 sm:gap-3 lg:grid-cols-[minmax(0,1.25fr)_21rem] lg:gap-4 overflow-y-auto">
+        <div className={`overflow-y-auto rounded-[1.2rem] border border-[var(--line)] bg-[var(--panel)] p-2 shadow-[var(--shadow-card)] sm:rounded-[1.7rem] sm:p-4 ${viewingHistory ? 'pointer-events-none' : ''}`}>
           <PuzzleStage
             puzzle={displayPuzzle}
             board={displayBoard}
@@ -257,7 +257,7 @@ export function PracticeTab({ language, level, showStats, onSolved }: Props) {
           />
         </div>
 
-        <aside className="flex min-h-0 flex-col gap-3 overflow-y-auto">
+        <aside className="flex min-h-0 flex-col gap-2 sm:gap-3 overflow-y-auto">
           {viewingHistory ? (
             <div className="rounded-[1.5rem] border border-[var(--line)] bg-[var(--panel-strong)] p-4 shadow-[var(--shadow-card)]">
               <div className="rounded-[1.2rem] bg-[var(--mint-gradient)] px-4 py-3 text-sm font-semibold text-[var(--ink)]">
@@ -279,9 +279,9 @@ export function PracticeTab({ language, level, showStats, onSolved }: Props) {
             </div>
           ) : (
             <>
-              <div className="rounded-[1.5rem] border border-[var(--line)] bg-[var(--panel-strong)] p-4 shadow-[var(--shadow-card)]">
+              <div className="rounded-[1.2rem] border border-[var(--line)] bg-[var(--panel-strong)] p-2 shadow-[var(--shadow-card)] sm:rounded-[1.5rem] sm:p-4">
                 <div className="text-[0.68rem] font-extrabold uppercase tracking-[0.16em] text-[var(--muted)]">{strings.moveTray}</div>
-                <div className="mt-3 grid grid-cols-2 gap-3">
+                <div className="mt-2 grid grid-cols-2 gap-2 sm:mt-3 sm:gap-3">
                   {bankPieces.map((piece) => (
                     <PieceButton
                       key={piece.id}
@@ -291,19 +291,19 @@ export function PracticeTab({ language, level, showStats, onSolved }: Props) {
                     />
                   ))}
                   {bankPieces.length === 0 && (
-                    <div className="col-span-2 rounded-[1.2rem] border border-dashed border-[var(--line-strong)] bg-[var(--glass-soft)] px-4 py-8 text-center text-sm font-semibold text-[var(--muted)]">
+                    <div className="col-span-2 rounded-[1rem] border border-dashed border-[var(--line-strong)] bg-[var(--glass-soft)] px-3 py-4 text-center text-sm font-semibold text-[var(--muted)] sm:rounded-[1.2rem] sm:px-4 sm:py-8">
                       {solved ? strings.levelDone : strings.tapPlacedPiece}
                     </div>
                   )}
                 </div>
               </div>
 
-              <div className="rounded-[1.5rem] border border-[var(--line)] bg-[var(--panel-strong)] p-4 shadow-[var(--shadow-card)]">
+              <div className="rounded-[1.2rem] border border-[var(--line)] bg-[var(--panel-strong)] p-2 shadow-[var(--shadow-card)] sm:rounded-[1.5rem] sm:p-4">
                 <div className="text-[0.68rem] font-extrabold uppercase tracking-[0.16em] text-[var(--muted)]">{strings.puzzleGoal}</div>
-                <div className="mt-3 rounded-[1.2rem] bg-[var(--cool-gradient)] p-3 text-sm leading-6 text-[var(--ink)]">
+                <div className="mt-2 rounded-[1rem] bg-[var(--cool-gradient)] p-2 text-sm leading-5 text-[var(--ink)] sm:mt-3 sm:rounded-[1.2rem] sm:p-3 sm:leading-6">
                   {puzzle.prompt}
                 </div>
-                <div className="mt-4 rounded-[1.2rem] border border-[var(--line)] bg-[var(--glass-soft)] p-3">
+                <div className="mt-2 rounded-[1rem] border border-[var(--line)] bg-[var(--glass-soft)] p-2 sm:mt-4 sm:rounded-[1.2rem] sm:p-3">
                   <div className="text-[0.68rem] font-extrabold uppercase tracking-[0.16em] text-[var(--muted)]">{strings.selectedPiece}</div>
                   {currentPiece ? (
                     <div className="mt-3">
@@ -316,7 +316,7 @@ export function PracticeTab({ language, level, showStats, onSolved }: Props) {
 
                 {feedback && (
                   <div
-                    className={`mt-4 rounded-[1.2rem] px-4 py-3 text-sm font-semibold ${
+                    className={`mt-2 rounded-[1rem] px-3 py-2 text-sm font-semibold sm:mt-4 sm:rounded-[1.2rem] sm:px-4 sm:py-3 ${
                       feedback.kind === 'solved'
                         ? 'bg-[var(--mint-gradient)] text-[var(--ink)]'
                         : feedback.kind === 'retry'
@@ -331,7 +331,7 @@ export function PracticeTab({ language, level, showStats, onSolved }: Props) {
                   </div>
                 )}
 
-                <div className="mt-4 flex flex-wrap gap-2">
+                <div className="mt-2 flex flex-wrap gap-2 sm:mt-4">
                   <ActionButton label={strings.resetBoard} onClick={onReset} tone="quiet" />
                   {solved && <ActionButton label={strings.nextPuzzle} onClick={nextPuzzle} tone="success" />}
                   {!solved && history.length > 0 && (
@@ -725,9 +725,9 @@ function StatPill({ label, value, tone }: { label: string; value: number; tone: 
   } as const
 
   return (
-    <div className={`rounded-[1rem] px-3 py-3 ${styles[tone]}`}>
-      <div className="text-[0.68rem] font-extrabold uppercase tracking-[0.14em] text-[var(--muted)]">{label}</div>
-      <div className="mt-1 text-2xl font-extrabold text-[var(--ink)]">{value}</div>
+    <div className={`rounded-[0.75rem] px-2 py-2 sm:rounded-[1rem] sm:px-3 sm:py-3 ${styles[tone]}`}>
+      <div className="text-[0.58rem] font-extrabold uppercase tracking-[0.14em] text-[var(--muted)] sm:text-[0.68rem]">{label}</div>
+      <div className="mt-0.5 text-lg font-extrabold text-[var(--ink)] sm:mt-1 sm:text-2xl">{value}</div>
     </div>
   )
 }
