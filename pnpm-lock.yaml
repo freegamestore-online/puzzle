@@ -15,8 +15,8 @@ importers:
   web:
     dependencies:
       '@freegamestore/games':
-        specifier: ^0.10.0
-        version: 0.10.0(react@19.2.5)
+        specifier: ^0.12.0
+        version: 0.12.0(react@19.2.5)
       lucide-react:
         specifier: ^1.14.0
         version: 1.14.0(react@19.2.5)
@@ -836,8 +836,8 @@ packages:
     resolution: {integrity: sha512-rZAP3aVgB9ds9KOeUSL+zZ21hPmo8dh6fnIFwRQj5EAZl9gzR7wxYbYXYysAM8CTqGmUGyp2S4kUdV17MnGuWQ==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
 
-  '@freegamestore/games@0.10.0':
-    resolution: {integrity: sha512-R3w6V7alXm6YJ36ipjNnrg1jAClZLktDlVTqn7UjeiRggeqLHxG80dih5d0tIiI8aKnDS00jU/6IvehcLflrTg==}
+  '@freegamestore/games@0.12.0':
+    resolution: {integrity: sha512-0t+NS+2ciSWjdbalp1QyeNGmfRYg4FMN9TAe/zKYGJ2s8M5RHIKrgjjJVVD8znuhNR+2pCfRbDE7wzXbEP4Bhg==}
     engines: {node: '>=22'}
     peerDependencies:
       react: ^19.0.0
@@ -3707,7 +3707,7 @@ snapshots:
       '@eslint/core': 1.2.1
       levn: 0.4.1
 
-  '@freegamestore/games@0.10.0(react@19.2.5)':
+  '@freegamestore/games@0.12.0(react@19.2.5)':
     dependencies:
       react: 19.2.5
 
