@@ -121,7 +121,7 @@ export default function App() {
     >
       <div className="relative w-full h-full">
         <div className="flex min-h-0 flex-1 flex-col h-full">
-          <section className="flex min-h-0 flex-1 flex-col overflow-y-auto rounded-[1rem] bg-[var(--panel-quiet)] p-1.5 backdrop-blur-xl sm:rounded-[1.4rem] sm:p-3 lg:rounded-[1.7rem] lg:p-5">
+          <section className="flex min-h-0 flex-1 flex-col overflow-y-auto rounded-[0.5rem] bg-[var(--panel-quiet)] p-1 backdrop-blur-xl sm:rounded-[1.4rem] sm:p-3 lg:rounded-[1.7rem] lg:p-5">
             {mode === 'play' ? (
               <PracticeTab language={settings.contentLang} level={settings.level} showStats={showStats} />
             ) : (

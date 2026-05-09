@@ -205,8 +205,8 @@ export function PracticeTab({ language, level, showStats, onSolved }: Props) {
   const solved = viewingHistory || feedback?.kind === 'solved'
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-2 sm:gap-3 lg:gap-4">
-      <section className="shrink rounded-[1.6rem] border border-[var(--line)] bg-[var(--panel-strong)] p-2 shadow-[var(--shadow-card)] sm:p-3 lg:p-4 overflow-hidden">
+    <div className="flex min-h-0 flex-1 flex-col gap-1 sm:gap-3 lg:gap-4 overflow-y-auto">
+      <section className="shrink-0 rounded-[1rem] border border-[var(--line)] bg-[var(--panel-strong)] p-1.5 shadow-[var(--shadow-card)] sm:rounded-[1.6rem] sm:p-3 lg:p-4 overflow-hidden">
         <div className="flex flex-col gap-2 sm:gap-3 lg:flex-row lg:items-start lg:justify-between">
           <div className="min-w-0 space-y-0.5 sm:space-y-1">
             <div className="flex items-center gap-2">
@@ -220,8 +220,8 @@ export function PracticeTab({ language, level, showStats, onSolved }: Props) {
               )}
             </div>
             <div>
-              <h1 className="display-font text-base font-extrabold text-[var(--ink)] sm:text-xl lg:text-3xl">{displayPuzzle.title}</h1>
-              <p className="mt-0.5 max-w-3xl text-[0.7rem] leading-4 text-[var(--muted)] sm:mt-1 sm:text-sm sm:leading-6">{displayPuzzle.prompt}</p>
+              <h1 className="display-font text-sm font-extrabold text-[var(--ink)] sm:text-xl lg:text-3xl">{displayPuzzle.title}</h1>
+              <p className="mt-0.5 max-w-3xl text-[0.65rem] leading-3.5 text-[var(--muted)] sm:mt-1 sm:text-sm sm:leading-6">{displayPuzzle.prompt}</p>
             </div>
           </div>
 
@@ -243,8 +243,8 @@ export function PracticeTab({ language, level, showStats, onSolved }: Props) {
         </div>
       </section>
 
-      <section className="grid min-h-0 flex-1 gap-2 sm:gap-3 lg:grid-cols-[minmax(0,1.25fr)_21rem] lg:gap-4 overflow-y-auto">
-        <div className={`overflow-y-auto rounded-[1.2rem] border border-[var(--line)] bg-[var(--panel)] p-2 shadow-[var(--shadow-card)] sm:rounded-[1.7rem] sm:p-4 ${viewingHistory ? 'pointer-events-none' : ''}`}>
+      <section className="grid min-h-0 flex-1 gap-1 sm:gap-3 lg:grid-cols-[minmax(0,1.25fr)_21rem] lg:gap-4 overflow-y-auto">
+        <div className={`overflow-y-auto rounded-[0.75rem] border border-[var(--line)] bg-[var(--panel)] p-1.5 shadow-[var(--shadow-card)] sm:rounded-[1.7rem] sm:p-4 ${viewingHistory ? 'pointer-events-none' : ''}`}>
           <PuzzleStage
             puzzle={displayPuzzle}
             board={displayBoard}
@@ -257,7 +257,7 @@ export function PracticeTab({ language, level, showStats, onSolved }: Props) {
           />
         </div>
 
-        <aside className="flex min-h-0 flex-col gap-2 sm:gap-3 overflow-y-auto">
+        <aside className="flex min-h-0 flex-col gap-1 sm:gap-3 overflow-y-auto">
           {viewingHistory ? (
             <div className="rounded-[1.5rem] border border-[var(--line)] bg-[var(--panel-strong)] p-4 shadow-[var(--shadow-card)]">
               <div className="rounded-[1.2rem] bg-[var(--mint-gradient)] px-4 py-3 text-sm font-semibold text-[var(--ink)]">
@@ -279,9 +279,9 @@ export function PracticeTab({ language, level, showStats, onSolved }: Props) {
             </div>
           ) : (
             <>
-              <div className="rounded-[1.2rem] border border-[var(--line)] bg-[var(--panel-strong)] p-2 shadow-[var(--shadow-card)] sm:rounded-[1.5rem] sm:p-4">
-                <div className="text-[0.68rem] font-extrabold uppercase tracking-[0.16em] text-[var(--muted)]">{strings.moveTray}</div>
-                <div className="mt-2 grid grid-cols-2 gap-2 sm:mt-3 sm:gap-3">
+              <div className="rounded-[0.75rem] border border-[var(--line)] bg-[var(--panel-strong)] p-1.5 shadow-[var(--shadow-card)] sm:rounded-[1.5rem] sm:p-4">
+                <div className="text-[0.6rem] font-extrabold uppercase tracking-[0.16em] text-[var(--muted)] sm:text-[0.68rem]">{strings.moveTray}</div>
+                <div className="mt-1 grid grid-cols-2 gap-1.5 sm:mt-3 sm:gap-3">
                   {bankPieces.map((piece) => (
                     <PieceButton
                       key={piece.id}
@@ -298,13 +298,13 @@ export function PracticeTab({ language, level, showStats, onSolved }: Props) {
                 </div>
               </div>
 
-              <div className="rounded-[1.2rem] border border-[var(--line)] bg-[var(--panel-strong)] p-2 shadow-[var(--shadow-card)] sm:rounded-[1.5rem] sm:p-4">
-                <div className="text-[0.68rem] font-extrabold uppercase tracking-[0.16em] text-[var(--muted)]">{strings.puzzleGoal}</div>
-                <div className="mt-2 rounded-[1rem] bg-[var(--cool-gradient)] p-2 text-sm leading-5 text-[var(--ink)] sm:mt-3 sm:rounded-[1.2rem] sm:p-3 sm:leading-6">
+              <div className="rounded-[0.75rem] border border-[var(--line)] bg-[var(--panel-strong)] p-1.5 shadow-[var(--shadow-card)] sm:rounded-[1.5rem] sm:p-4">
+                <div className="text-[0.6rem] font-extrabold uppercase tracking-[0.16em] text-[var(--muted)] sm:text-[0.68rem]">{strings.puzzleGoal}</div>
+                <div className="mt-1 rounded-[0.5rem] bg-[var(--cool-gradient)] p-1.5 text-xs leading-4 text-[var(--ink)] sm:mt-3 sm:rounded-[1.2rem] sm:p-3 sm:text-sm sm:leading-6">
                   {puzzle.prompt}
                 </div>
-                <div className="mt-2 rounded-[1rem] border border-[var(--line)] bg-[var(--glass-soft)] p-2 sm:mt-4 sm:rounded-[1.2rem] sm:p-3">
-                  <div className="text-[0.68rem] font-extrabold uppercase tracking-[0.16em] text-[var(--muted)]">{strings.selectedPiece}</div>
+                <div className="mt-1 rounded-[0.5rem] border border-[var(--line)] bg-[var(--glass-soft)] p-1.5 sm:mt-4 sm:rounded-[1.2rem] sm:p-3">
+                  <div className="text-[0.6rem] font-extrabold uppercase tracking-[0.16em] text-[var(--muted)] sm:text-[0.68rem]">{strings.selectedPiece}</div>
                   {currentPiece ? (
                     <div className="mt-3">
                       <PieceButton piece={currentPiece} active onClick={() => onSelectPiece(currentPiece.id)} />
@@ -331,7 +331,7 @@ export function PracticeTab({ language, level, showStats, onSolved }: Props) {
                   </div>
                 )}
 
-                <div className="mt-2 flex flex-wrap gap-2 sm:mt-4">
+                <div className="mt-1 flex flex-wrap gap-1.5 sm:mt-4 sm:gap-2">
                   <ActionButton label={strings.resetBoard} onClick={onReset} tone="quiet" />
                   {solved && <ActionButton label={strings.nextPuzzle} onClick={nextPuzzle} tone="success" />}
                   {!solved && history.length > 0 && (
