@@ -5,6 +5,7 @@
 :root {
   color-scheme: light;
   --paper: #fff8ef;
+  --bg: var(--paper);
   --paper-deep: #fff2e4;
   --ink: #1c1832;
   --ink-soft: rgba(28, 24, 50, 0.82);
@@ -54,6 +55,7 @@
 :root[data-theme='dark'] {
   color-scheme: dark;
   --paper: #171225;
+  --bg: var(--paper);
   --paper-deep: #100d19;
   --ink: #fff6ec;
   --ink-soft: rgba(255, 246, 236, 0.82);
