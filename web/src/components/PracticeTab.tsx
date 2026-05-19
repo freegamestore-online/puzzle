@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { useGameSounds } from '@freegamestore/games'
 import { getStrings } from '../services/i18n.ts'
 import { generatePuzzle, getPuzzleLabel } from '../services/puzzles.ts'
 import { loadProblemStats, loadScores, recordAttempt, recordProblemAnswer } from '../services/scores.ts'
@@ -60,6 +61,9 @@ function appendHistory(prev: HistoryEntry[], entry: HistoryEntry): HistoryEntry[
 
 export function PracticeTab({ language, level, showStats, onSolved }: Props) {
   const strings = getStrings(language)
+  const sounds = useGameSounds()
+  const soundsRef = useRef(sounds)
+  soundsRef.current = sounds
   const [scores, setScores] = useState<Score>(loadScores)
   const [problemStats, setProblemStats] = useState<ProblemStatsMap>(loadProblemStats)
   const [puzzle, setPuzzle] = useState<PuzzleDefinition | null>(null)
@@ -103,6 +107,7 @@ export function PracticeTab({ language, level, showStats, onSolved }: Props) {
 
   const onSlotPress = useCallback((slotId: string) => {
     if (!puzzle) return
+    soundsRef.current.playMove()
     setBoard((prev) => {
       if (!prev) return prev
       const occupied = prev.slotPlacements[slotId]
@@ -186,6 +191,7 @@ export function PracticeTab({ language, level, showStats, onSolved }: Props) {
     })
     setProblemStats((prev) => recordProblemAnswer(prev, puzzle.id, true))
     setFeedback({ kind: 'solved', message: puzzle.celebration })
+    soundsRef.current.playLevelUp()
     setHistory((prev) => appendHistory(prev, { puzzle, board, solvedAt: Date.now() }))
   }, [board, puzzle, feedback?.kind, onSolved])
 
