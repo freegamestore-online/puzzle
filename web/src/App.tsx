@@ -50,7 +50,26 @@ export default function App() {
       topbar={
         <GameTopbar
           title="Puzzle"
-          rules={<div><h3 style={{fontWeight:700}}>Puzzle</h3><h4 style={{fontWeight:600}}>Rules</h4><ul><li>Logic puzzles and pattern challenges</li><li>Multiple difficulty levels</li><li>Track your stats</li><li>Practice mode for skill building</li></ul></div>}
+          rules={
+            <div>
+              <h3 style={{ fontWeight: 700 }}>Puzzle</h3>
+              <p>Small picture puzzles. Pick a level from the Lv menu: 1 patterns, 2 sorting, 3 sequences, 4 rotating tiles, 5 mixed, 6 sprint.</p>
+              <h4 style={{ fontWeight: 600 }}>Controls</h4>
+              <ul>
+                <li>Tap a piece in the Move tray to select it, then tap a slot or bucket to place it</li>
+                <li>Tap a placed piece to pick it back up; placing on a filled slot swaps the pieces</li>
+                <li>Rotate puzzles: tap a tile to turn it 90° until it points the way its badge shows</li>
+                <li>Reset board puts every piece back in the tray</li>
+              </ul>
+              <h4 style={{ fontWeight: 600 }}>Scoring</h4>
+              <ul>
+                <li>The board is checked automatically once every spot is filled</li>
+                <li>Solved: +1 solved and +1 streak, then the next puzzle loads</li>
+                <li>A full but wrong board counts as a missed check and resets your streak</li>
+                <li>Stats shows solved, checks, best streak and accuracy (solved ÷ checks)</li>
+              </ul>
+            </div>
+          }
           actions={
             <div className="flex items-center gap-2">
               <LanguagePicker

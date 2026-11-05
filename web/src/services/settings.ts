@@ -1,4 +1,5 @@
 import type { LanguageCode } from '../types.ts'
+import { isSupportedLanguage } from './i18n.ts'
 
 const STORAGE_KEY = 'freepuzzle-settings'
 
@@ -30,7 +31,12 @@ const defaults: Settings = {
 export function loadSettings(): Settings {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    if (raw) return { ...defaults, ...JSON.parse(raw) }
+    if (raw) {
+      const stored = { ...defaults, ...JSON.parse(raw) } as Settings
+      // Older versions offered languages that were never translated.
+      if (!isSupportedLanguage(stored.contentLang)) stored.contentLang = defaults.contentLang
+      return stored
+    }
   } catch { /* ignore */ }
   return defaults
 }

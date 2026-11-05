@@ -4,8 +4,8 @@ import { getStrings } from '../services/i18n.ts'
 import { generatePuzzle, getPuzzleLabel } from '../services/puzzles.ts'
 import { loadProblemStats, loadScores, recordAttempt, recordProblemAnswer } from '../services/scores.ts'
 import {
+  attemptOutcome,
   createBoardState,
-  evaluatePuzzle,
   getAllPieces,
   getBankPieces,
   removePieceEverywhere,
@@ -29,7 +29,6 @@ interface Props {
   language: LanguageCode
   level: number
   showStats: boolean
-  onSolved?: (totalSolved: number) => void
 }
 
 type FeedbackState =
@@ -61,11 +60,13 @@ function appendHistory(prev: HistoryEntry[], entry: HistoryEntry): HistoryEntry[
   return next
 }
 
-export function PracticeTab({ language, level, showStats, onSolved }: Props) {
+export function PracticeTab({ language, level, showStats }: Props) {
   const strings = getStrings(language)
   const sounds = useGameSounds()
   const soundsRef = useRef(sounds)
-  soundsRef.current = sounds
+  useEffect(() => {
+    soundsRef.current = sounds
+  }, [sounds])
   const [scores, setScores] = useState<Score>(loadScores)
   const [problemStats, setProblemStats] = useState<ProblemStatsMap>(loadProblemStats)
   const [puzzle, setPuzzle] = useState<PuzzleDefinition | null>(null)
@@ -74,19 +75,20 @@ export function PracticeTab({ language, level, showStats, onSolved }: Props) {
   const [history, setHistory] = useState<HistoryEntry[]>(loadHistory)
   const [historyIndex, setHistoryIndex] = useState<number | null>(null)
   const statsRef = useRef(problemStats)
+  // Board last counted as an attempt, so re-renders don't count it twice.
+  const checkedBoardRef = useRef<BoardState | null>(null)
 
   useEffect(() => {
     statsRef.current = problemStats
   }, [problemStats])
 
+  const puzzleId = puzzle?.id
   const nextPuzzle = useCallback(() => {
-    setPuzzle((prev) => {
-      const next = generatePuzzle(level, language, statsRef.current, prev?.id)
-      setBoard(createBoardState(next))
-      setFeedback(null)
-      return next
-    })
-  }, [language, level])
+    const next = generatePuzzle(level, language, statsRef.current, puzzleId)
+    setPuzzle(next)
+    setBoard(createBoardState(next))
+    setFeedback(null)
+  }, [language, level, puzzleId])
 
   useEffect(() => {
     const next = generatePuzzle(level, language, statsRef.current)
@@ -185,17 +187,25 @@ export function PracticeTab({ language, level, showStats, onSolved }: Props) {
 
   useEffect(() => {
     if (!puzzle || !board || feedback?.kind === 'solved') return
-    if (evaluatePuzzle(puzzle, board) !== 'solved') return
-    setScores((prev) => {
-      const next = recordAttempt(prev, true)
-      onSolved?.(next.solved)
-      return next
-    })
-    setProblemStats((prev) => recordProblemAnswer(prev, puzzle.id, true))
-    setFeedback({ kind: 'solved', message: puzzle.celebration })
-    soundsRef.current.playLevelUp()
-    setHistory((prev) => appendHistory(prev, { puzzle, board, solvedAt: Date.now() }))
-  }, [board, puzzle, feedback?.kind, onSolved])
+    if (checkedBoardRef.current === board) return
+    const outcome = attemptOutcome(puzzle, board)
+    if (outcome === null) {
+      if (feedback?.kind === 'retry') setFeedback(null)
+      return
+    }
+    checkedBoardRef.current = board
+    const solved = outcome === 'solved'
+    setScores(recordAttempt(scores, solved))
+    setProblemStats(recordProblemAnswer(problemStats, puzzle.id, solved))
+    if (solved) {
+      setFeedback({ kind: 'solved', message: puzzle.celebration })
+      soundsRef.current.playLevelUp()
+      setHistory(appendHistory(history, { puzzle, board, solvedAt: Date.now() }))
+    } else {
+      setFeedback({ kind: 'retry', message: strings.keepTrying })
+      soundsRef.current.playError()
+    }
+  }, [board, puzzle, feedback?.kind, scores, problemStats, history, strings.keepTrying])
 
   useEffect(() => {
     if (feedback?.kind !== 'solved' || historyIndex !== null) return
@@ -510,7 +520,12 @@ function SortBoard({
                     key={pieceId}
                     piece={placedPiece}
                     compact
-                    onClick={() => onBucketPiecePress(bucket.id, pieceId)}
+                    onClick={(e) => {
+                      // The piece sits inside the bucket button; don't let the
+                      // bucket's click drop the piece straight back in.
+                      e.stopPropagation()
+                      onBucketPiecePress(bucket.id, pieceId)
+                    }}
                   />
                 )
               })}
@@ -581,7 +596,7 @@ function PieceButton({
   piece: PuzzlePiece
   active?: boolean
   compact?: boolean
-  onClick: () => void
+  onClick: (e: React.MouseEvent) => void
 }) {
   return (
     <button

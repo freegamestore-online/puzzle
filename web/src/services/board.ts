@@ -109,3 +109,15 @@ export function evaluatePuzzle(puzzle: PuzzleDefinition, board: BoardState) {
   const solved = puzzle.tiles.every((tile) => (board.rotations[tile.id] ?? 0) % 360 === tile.targetRotation % 360)
   return solved ? 'solved' as const : 'wrong' as const
 }
+
+/**
+ * What the current board counts as in the stats: a solve, a failed attempt
+ * (every target filled but the arrangement is wrong), or nothing yet.
+ * Rotate puzzles have no "filled" state, so they only ever count solves.
+ */
+export function attemptOutcome(puzzle: PuzzleDefinition, board: BoardState): 'solved' | 'failed' | null {
+  const result = evaluatePuzzle(puzzle, board)
+  if (result === 'solved') return 'solved'
+  if (result === 'wrong' && puzzle.kind !== 'rotate') return 'failed'
+  return null
+}

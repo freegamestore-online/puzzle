@@ -5,12 +5,10 @@ export function useSettings() {
   const [settings, setSettings] = useState<Settings>(loadSettings)
 
   const update = useCallback((patch: Partial<Settings>) => {
-    setSettings(prev => {
-      const next = { ...prev, ...patch }
-      saveSettings(next)
-      return next
-    })
+    setSettings(prev => ({ ...prev, ...patch }))
   }, [])
+
+  useEffect(() => saveSettings(settings), [settings])
 
   return { settings, update }
 }

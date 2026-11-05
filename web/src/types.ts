@@ -1,21 +1,6 @@
 export type Mode = 'play' | 'preferences'
-export type LanguageCode =
-  | 'en'
-  | 'es'
-  | 'fr'
-  | 'de'
-  | 'it'
-  | 'pt'
-  | 'ja'
-  | 'ko'
-  | 'zh'
-  | 'ru'
-  | 'ar'
-  | 'hi'
-  | 'tr'
-  | 'nl'
-  | 'pl'
-  | 'uk'
+/** Languages with full UI and puzzle-title translations. */
+export type LanguageCode = 'en' | 'es'
 
 export interface Language {
   code: LanguageCode
