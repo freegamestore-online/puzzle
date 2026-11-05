@@ -501,36 +501,37 @@ function SortBoard({
     <div className="space-y-4">
       <div className="grid gap-3 lg:grid-cols-2">
         {puzzle.buckets.map((bucket) => (
-          <button
+          // The bucket's drop button fills the card behind its contents, so placed pieces
+          // are sibling buttons rather than buttons nested inside it. Text and the empty
+          // slot let taps through to the drop button; placed pieces take their own taps.
+          <div
             key={bucket.id}
-            className="rounded-[1.5rem] border border-[var(--line)] p-4 text-left shadow-[var(--shadow-card)] transition hover:-translate-y-0.5"
+            className="relative rounded-[1.5rem] border border-[var(--line)] p-4 text-left shadow-[var(--shadow-card)] transition hover:-translate-y-0.5"
             style={{ background: `linear-gradient(180deg, ${bucket.color}22, rgba(255,255,255,0.72))` }}
-            onClick={() => onBucketPress(bucket.id)}
-            type="button"
           >
-            <div className="text-sm font-extrabold text-[var(--ink)]">{bucket.label}</div>
-            <div className="mt-1 text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">{bucket.hint}</div>
-            <div className="mt-4 grid gap-2">
-              {board.bucketPlacements[bucket.id].length === 0 && <EmptyCard label="Drop pieces here" />}
-              {board.bucketPlacements[bucket.id].map((pieceId) => {
-                const placedPiece = puzzle.pieces.find((piece) => piece.id === pieceId)
-                if (!placedPiece) return null
-                return (
-                  <PieceButton
-                    key={pieceId}
-                    piece={placedPiece}
-                    compact
-                    onClick={(e) => {
-                      // The piece sits inside the bucket button; don't let the
-                      // bucket's click drop the piece straight back in.
-                      e.stopPropagation()
-                      onBucketPiecePress(bucket.id, pieceId)
-                    }}
-                  />
-                )
-              })}
+            <button
+              aria-label={bucket.label}
+              className="absolute inset-0 rounded-[1.5rem]"
+              onClick={() => onBucketPress(bucket.id)}
+              type="button"
+            />
+            <div className="pointer-events-none relative">
+              <div className="text-sm font-extrabold text-[var(--ink)]">{bucket.label}</div>
+              <div className="mt-1 text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">{bucket.hint}</div>
+              <div className="mt-4 grid gap-2">
+                {board.bucketPlacements[bucket.id].length === 0 && <EmptyCard label="Drop pieces here" />}
+                {board.bucketPlacements[bucket.id].map((pieceId) => {
+                  const placedPiece = puzzle.pieces.find((piece) => piece.id === pieceId)
+                  if (!placedPiece) return null
+                  return (
+                    <div key={pieceId} className="pointer-events-auto">
+                      <PieceButton piece={placedPiece} compact onClick={() => onBucketPiecePress(bucket.id, pieceId)} />
+                    </div>
+                  )
+                })}
+              </div>
             </div>
-          </button>
+          </div>
         ))}
       </div>
 
@@ -596,7 +597,7 @@ function PieceButton({
   piece: PuzzlePiece
   active?: boolean
   compact?: boolean
-  onClick: (e: React.MouseEvent) => void
+  onClick: () => void
 }) {
   return (
     <button

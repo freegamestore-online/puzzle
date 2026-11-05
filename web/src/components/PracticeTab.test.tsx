@@ -28,7 +28,8 @@ vi.mock('../services/puzzles.ts', async (importOriginal) => ({
 import { PracticeTab } from './PracticeTab.tsx'
 
 const pieceButton = (label: string) => screen.getAllByText(label)[0]!.closest('button')!
-const bucket = (label: string) => screen.getByText(label).closest('button')!
+const bucket = (label: string) => screen.getByRole('button', { name: label })
+const bucketCard = (label: string) => bucket(label).parentElement!
 const storedScores = () => JSON.parse(localStorage.getItem('freepuzzle-scores') ?? 'null')
 
 beforeEach(() => localStorage.clear())
@@ -63,10 +64,18 @@ describe('PracticeTab sort buckets', () => {
     render(<PracticeTab language="en" level={2} showStats={false} />)
     fireEvent.click(pieceButton('Fish'))
     fireEvent.click(bucket('River'))
-    const placed = screen.getAllByText('Fish').map((el) => el.closest('button')!).find((b) => bucket('River').contains(b) && b !== bucket('River'))!
+    const placed = screen.getAllByText('Fish').map((el) => el.closest('button')!).find((b) => bucketCard('River').contains(b))!
     fireEvent.click(placed)
     // Picked up: it is back in the tray, no longer inside the River bucket.
-    expect(bucket('River')).not.toContainElement(placed)
+    expect(bucketCard('River')).not.toContainElement(placed)
     expect(screen.getAllByText('Drop pieces here')).toHaveLength(2)
+  })
+
+  it('never nests a button inside another button', () => {
+    const { container } = render(<PracticeTab language="en" level={2} showStats={false} />)
+    fireEvent.click(pieceButton('Fish'))
+    fireEvent.click(bucket('River'))
+    expect(bucketCard('River')).toHaveTextContent('Fish')
+    expect(container.querySelectorAll('button button')).toHaveLength(0)
   })
 })
